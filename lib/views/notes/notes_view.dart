@@ -1,6 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:bloc/bloc.dart';
 import 'package:mynotes/services/auth/auth_service.dart';
+import 'package:mynotes/services/auth/bloc/auth_bloc.dart';
+import 'package:mynotes/services/auth/bloc/auth_event.dart';
 import 'package:mynotes/services/cloud/cloud_note.dart';
 import 'package:mynotes/services/cloud/firebase_cloud_storage.dart';
 import 'package:mynotes/utilities/dialogs/logout_dialog.dart';
@@ -18,6 +22,7 @@ class NotesView extends StatefulWidget {
 
 class _NotesViewState extends State<NotesView> {
   late final FirebaseCloudStorage _notesService;
+
   String get userId => AuthService.firebase().currentUser!.id;
 
   @override
@@ -44,11 +49,9 @@ class _NotesViewState extends State<NotesView> {
                   case MenuAction.logout:
                     final shouldLogout = await showLogoutDialog(context);
                     if (shouldLogout) {
-                      await AuthService.firebase().logOut();
-                      Navigator.of(context).pushNamedAndRemoveUntil(
-                        loginRoute,
-                        (_) => false,
-                      );
+                      context.read<AuthBloc>().add(
+                            const AuthEventLogOut(),
+                          );
                     }
                 }
               },
@@ -72,7 +75,8 @@ class _NotesViewState extends State<NotesView> {
                   return NotesListView(
                     notes: allNotes,
                     onDeleteNote: (note) async {
-                      await _notesService.deleteNote(documentId: note.documentId);
+                      await _notesService.deleteNote(
+                          documentId: note.documentId);
                     },
                     onTap: (note) {
                       Navigator.of(context).pushNamed(
