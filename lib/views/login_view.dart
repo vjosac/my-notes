@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mynotes/constants/routes.dart';
 import 'package:mynotes/services/auth/bloc/auth_bloc.dart';
 import 'package:mynotes/services/auth/bloc/auth_event.dart';
 import 'package:mynotes/services/auth/bloc/auth_state.dart';
