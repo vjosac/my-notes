@@ -3,7 +3,6 @@ import 'package:mynotes/services/auth/bloc/auth_bloc.dart';
 import 'package:mynotes/services/auth/bloc/auth_event.dart';
 import 'package:mynotes/services/auth/bloc/auth_state.dart';
 import 'package:mynotes/utilities/dialogs/error_dialog.dart';
-import 'package:mynotes/utilities/dialogs/loading_dialog.dart';
 import '../services/auth/auth_exceptions.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
